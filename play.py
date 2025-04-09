@@ -1,4 +1,6 @@
 # play.py
+import time
+import pickle  # <-- bunu da ekle
 import pygame
 from env.maze_env import MazeEnv
 from agent.q_learning_agent import QLearningAgent
@@ -29,7 +31,7 @@ def play_with_pygame(agent):
 
         state = next_state
         if done:
-            print("🎉 Agent reached the goal!")
+            print("Agent reached the goal!")
             time.sleep(1.5)
             running = False
 
@@ -39,8 +41,8 @@ def play_with_pygame(agent):
 if __name__ == "__main__":
     agent = QLearningAgent(['up', 'down', 'left', 'right'])
 
-    # Q-table örnek dolu değilse önce train.py ile eğit
-    # train.py sonrası pickle ile Q-table yükleyebilirsin
-    # burada test için eğitimden sonra çağrılmalı
+    # Q-table'ı yükle
+    with open("q_table.pkl", "rb") as f:
+        agent.q_table = pickle.load(f)
 
     play_with_pygame(agent)
